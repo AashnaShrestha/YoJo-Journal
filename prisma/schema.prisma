@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         Int                @id @default(autoincrement())
+  email      String             @unique
+  password   String             @db.VarChar(255)
+  name       String             @db.VarChar(255)
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @default(now())
+  journals   Journal[]
+  highlights JournalHighlight[]
+}
+
+model Journal {
+  id           Int                   @id @default(autoincrement())
+  name         String?               @db.VarChar(255)
+  content      String
+  userId       Int
+  user         User                  @relation(fields: [userId], references: [id])
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @default(now())
+  highlightMap JournalHighlightMap[]
+}
+
+model JournalHighlight {
+  id           Int                   @id @default(autoincrement())
+  name         String                @db.VarChar(255)
+  content      String
+  userId       Int
+  user         User                  @relation(fields: [userId], references: [id])
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @default(now())
+  highlightMap JournalHighlightMap[]
+}
+
+model JournalHighlightMap {
+  journalId   Int
+  journal     Journal          @relation(fields: [journalId], references: [id])
+  highlightId Int
+  highlight   JournalHighlight @relation(fields: [highlightId], references: [id])
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @default(now())
+
+  @@id([journalId, highlightId])
+}
