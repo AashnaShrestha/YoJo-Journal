@@ -12,7 +12,6 @@ export async function middleware(req) {
     pathname.startsWith("/api/signup") ||
     pathname.startsWith("/api/logout")
   ) {
-    console.log("LM")
     return NextResponse.next();
   }
 
@@ -31,7 +30,7 @@ export async function middleware(req) {
   }
 
   // 🔒 Protect journal pages
-  if (pathname.startsWith("/journal")) {
+  if (pathname.startsWith("/api/journal")) {
     if (!token) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
@@ -48,5 +47,5 @@ export async function middleware(req) {
 }
 
 export const config = {
-  matcher: ["/", "/journal/:path*", "/api/:path*"],
+  matcher: ["/", "/api/journal/:path*", "/api/:path*"],
 };

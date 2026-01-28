@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const ValidationError = require("@/utils/error");
 
 module.exports = async (req) => {
-  console.log(Object.keys(prisma))
   const { email, password, name } = req;
 
   if (!email || !password) {
