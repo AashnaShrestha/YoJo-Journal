@@ -9,32 +9,13 @@ const getUserId = async (req) => {
   const userId = payload.userId * 1;
   return userId;
 };
-
-export async function POST(req) {
-  try {
-    const body = await req.json();
-    const userId = await getUserId(req);
-    const journal = await journalService.createJournal({ ...body, userId });
-    return NextResponse.json(
-      { message: "success", data: journal },
-      { status: 200 },
-    );
-  } catch (err) {
-    console.log(err);
-    return NextResponse.json(
-      { message: err.message },
-      { status: err.statusCode || 500 },
-    );
-  }
-}
-
-export async function GET(req) {
+export async function GET(req, {params}) {
   try {
     const userId = await getUserId(req);
     const url = new URL(req.url);
-    const params = Object.fromEntries(url.searchParams.entries());
+    const {id} = params;
 
-    const journal = await journalService.listJournals({ userId, ...params });
+    const journal = await journalService.getJournalDetail({ userId, journalId: id });
     return NextResponse.json(
       { message: "success", data: journal },
       { status: 200 },

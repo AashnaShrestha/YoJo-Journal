@@ -48,6 +48,8 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
+    "moment": "^2.29.4",
+    "dompurify": "^2.4.0",
     "embla-carousel-react": "^8.6.0",
     "http-status": "^2.1.0",
     "input-otp": "^1.4.2",

@@ -6,7 +6,7 @@ const secret = new TextEncoder().encode(process.env.SECRET);
 export async function middleware(req) {
   const { pathname } = req.nextUrl;
 
-  // ✅ Allow auth APIs
+  // Allow auth APIs
   if (
     pathname.startsWith("/api/login") ||
     pathname.startsWith("/api/signup") ||
@@ -17,7 +17,7 @@ export async function middleware(req) {
 
   const token = req.cookies.get("token")?.value;
 
-  // 🏠 Home page logic
+  // Home page logic
   if (pathname === "/") {
     if (!token) return NextResponse.next();
 
@@ -29,7 +29,7 @@ export async function middleware(req) {
     }
   }
 
-  // 🔒 Protect journal pages
+  // Protect journal pages
   if (pathname.startsWith("/api/journal")) {
     if (!token) {
       return NextResponse.redirect(new URL("/login", req.url));
