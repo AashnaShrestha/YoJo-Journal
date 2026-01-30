@@ -3,8 +3,9 @@ import { jwtVerify } from "jose";
 
 const secret = new TextEncoder().encode(process.env.SECRET);
 
-export async function middleware(req) {
+export async function proxy(req) {
   const { pathname } = req.nextUrl;
+  console.log("PN", pathname);
 
   // Allow auth APIs
   if (
@@ -36,9 +37,11 @@ export async function middleware(req) {
     }
 
     try {
+      console.log("WEIRD")
       await jwtVerify(token, secret);
       return NextResponse.next();
     } catch {
+      console.log("INVALID TOKEN");
       return NextResponse.redirect(new URL("/login", req.url));
     }
   }

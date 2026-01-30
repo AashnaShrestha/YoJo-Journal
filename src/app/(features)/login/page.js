@@ -2,7 +2,7 @@
 import { InputField } from "@/components/InputField";
 import { Btn } from "@/components/Button";
 import { login } from "@/client/auth.api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { NextResponse } from "next/server";
 

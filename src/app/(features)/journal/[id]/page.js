@@ -14,8 +14,7 @@ export default function JournalDetailPage() {
     if (!journalId) return;
     const fetchJournalDetail = async () => {
       try {
-        const data = await getJournalDetail(journalId);
-        console.log("Fetched journal detail:", data);
+        const data = await getJournalDetail(journalId);x
         setJournal(data || {});
       } catch (err) {
         console.error("Failed to fetch journal detail", err);

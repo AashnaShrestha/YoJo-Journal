@@ -1,5 +1,5 @@
 const prisma = require("@/lib/prisma");
-const { ValidationError } = require("@/utils/error");
+const APIERROR = require("@/utils/error");
 const bcrypt = require("bcrypt");
 
 module.exports = async(queryObj) => {
@@ -9,11 +9,11 @@ module.exports = async(queryObj) => {
     }
   });
   if (!user) {
-    throw new ValidationError("Invalid email or password", 400);
+    throw new APIERROR("Invalid email or password", 400);
   }
   
   if (!bcrypt.compareSync(queryObj.password, user.password)) {
-    throw new ValidationError("Invalid email or password", 400);
+    throw new APIERROR("Invalid email or password", 400);
   }
   
   delete user.password;
