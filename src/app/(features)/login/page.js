@@ -17,7 +17,8 @@ export default function Signup() {
 
     try {
       await login(data);
-      router.replace("/journal");
+      router.push("/journal");
+      router.refresh();
     } catch (err) {
       setErrors(err.message);
     }

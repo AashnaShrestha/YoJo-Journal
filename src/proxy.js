@@ -5,7 +5,6 @@ const secret = new TextEncoder().encode(process.env.SECRET);
 
 export async function proxy(req) {
   const { pathname } = req.nextUrl;
-  console.log("PN", pathname);
 
   // Allow auth APIs
   if (
@@ -31,17 +30,16 @@ export async function proxy(req) {
   }
 
   // Protect journal pages
-  if (pathname.startsWith("/api/journal")) {
+  // Protect journal pages and API
+  if (pathname.startsWith("/api/journal") || pathname.startsWith("/journal")) {
     if (!token) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
 
     try {
-      console.log("WEIRD")
       await jwtVerify(token, secret);
       return NextResponse.next();
     } catch {
-      console.log("INVALID TOKEN");
       return NextResponse.redirect(new URL("/login", req.url));
     }
   }
@@ -50,5 +48,5 @@ export async function proxy(req) {
 }
 
 export const config = {
-  matcher: ["/", "/api/journal/:path*", "/api/:path*"],
+  matcher: ["/", "/api/journal/:path*", "/api/:path*", "/journal/:path*"],
 };
