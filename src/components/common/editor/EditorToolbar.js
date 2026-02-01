@@ -1,77 +1,99 @@
-"use client";
+import {
+  AlignCenter,
+  AlignLeft,
+  AlignRight,
+  Bold,
+  Heading1,
+  Heading2,
+  Heading3,
+  Highlighter,
+  Italic,
+  List,
+  ListOrdered,
+  Strikethrough,
+} from "lucide-react";
+import { Toggle } from "@/components/ui/toggle";
+// import { Editor } from "@tiptap/react";
 
-export default function TipTapToolbar({ editor }) {
-  if (!editor) return null;
+export default function EditorToolbar({editor}) {
+  if (!editor) {
+    return null;
+  }
 
-  const buttonClass = (active) =>
-    `px-2 py-1 rounded border text-sm ${
-      active ? "bg-black text-white" : "bg-white"
-    }`;
+  const Options = [
+    {
+      icon: <Heading1 className="size-4" />,
+      onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+      preesed: editor.isActive("heading", { level: 1 }),
+    },
+    {
+      icon: <Heading2 className="size-4" />,
+      onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+      preesed: editor.isActive("heading", { level: 2 }),
+    },
+    {
+      icon: <Heading3 className="size-4" />,
+      onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+      preesed: editor.isActive("heading", { level: 3 }),
+    },
+    {
+      icon: <Bold className="size-4" />,
+      onClick: () => editor.chain().focus().toggleBold().run(),
+      preesed: editor.isActive("bold"),
+    },
+    {
+      icon: <Italic className="size-4" />,
+      onClick: () => editor.chain().focus().toggleItalic().run(),
+      preesed: editor.isActive("italic"),
+    },
+    {
+      icon: <Strikethrough className="size-4" />,
+      onClick: () => editor.chain().focus().toggleStrike().run(),
+      preesed: editor.isActive("strike"),
+    },
+    {
+      icon: <AlignLeft className="size-4" />,
+      onClick: () => editor.chain().focus().setTextAlign("left").run(),
+      preesed: editor.isActive({ textAlign: "left" }),
+    },
+    {
+      icon: <AlignCenter className="size-4" />,
+      onClick: () => editor.chain().focus().setTextAlign("center").run(),
+      preesed: editor.isActive({ textAlign: "center" }),
+    },
+    {
+      icon: <AlignRight className="size-4" />,
+      onClick: () => editor.chain().focus().setTextAlign("right").run(),
+      preesed: editor.isActive({ textAlign: "right" }),
+    },
+    {
+      icon: <List className="size-4" />,
+      onClick: () => editor.chain().focus().toggleBulletList().run(),
+      preesed: editor.isActive("bulletList"),
+    },
+    {
+      icon: <ListOrdered className="size-4" />,
+      onClick: () => editor.chain().focus().toggleOrderedList().run(),
+      preesed: editor.isActive("orderedList"),
+    },
+    {
+      icon: <Highlighter className="size-4" />,
+      onClick: () => editor.chain().focus().toggleHighlight().run(),
+      preesed: editor.isActive("highlight"),
+    },
+  ];
 
   return (
-    <div className="flex flex-wrap gap-2 border-b p-2">
-      <button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        className={buttonClass(editor.isActive("bold"))}
-      >
-        B
-      </button>
-
-      <button
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={buttonClass(editor.isActive("italic"))}
-      >
-        I
-      </button>
-
-      <button
-        onClick={() => editor.chain().focus().toggleStrike().run()}
-        className={buttonClass(editor.isActive("strike"))}
-      >
-        S
-      </button>
-
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={buttonClass(editor.isActive("heading", { level: 1 }))}
-      >
-        H1
-      </button>
-
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={buttonClass(editor.isActive("heading", { level: 2 }))}
-      >
-        H2
-      </button>
-
-      <button
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={buttonClass(editor.isActive("bulletList"))}
-      >
-        • List
-      </button>
-
-      <button
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={buttonClass(editor.isActive("orderedList"))}
-      >
-        1. List
-      </button>
-
-      <button
-        onClick={() => editor.chain().focus().undo().run()}
-        className="px-2 py-1 border rounded text-sm"
-      >
-        Undo
-      </button>
-
-      <button
-        onClick={() => editor.chain().focus().redo().run()}
-        className="px-2 py-1 border rounded text-sm"
-      >
-        Redo
-      </button>
+    <div className="border rounded-md p-1 mb-1 bg-slate-50 space-x-2 z-50">
+      {Options.map((option, index) => (
+        <Toggle
+          key={index}
+          pressed={option.preesed}
+          onPressedChange={option.onClick}
+        >
+          {option.icon}
+        </Toggle>
+      ))}
     </div>
   );
 }

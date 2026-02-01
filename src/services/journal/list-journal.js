@@ -31,6 +31,9 @@ module.exports = async (queryObj) => {
     orderBy: {
       createdAt: "desc",
     },
+    include: {
+      content: false,
+    },
   });
 
   return journals;

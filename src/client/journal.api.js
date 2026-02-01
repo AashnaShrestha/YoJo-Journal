@@ -8,7 +8,6 @@ export async function createJournal(data) {
   return res.json();
 }
 
-// lib/journal.js (or wherever you keep API helpers)
 export async function listJournals(year, month) {
   const res = await fetch(`/api/journal?year=${year}&month=${month}`, {
     method: "GET",

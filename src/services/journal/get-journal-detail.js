@@ -3,12 +3,15 @@ const {ValidationError} = require('@/utils/error');
 const { id } = require("date-fns/locale");
 
 module.exports = async ({journalId, userId}) => {
+    console.log('Fetching journal detail for journalId:', journalId, 'and userId:', userId);
     const journal = await prisma.journal.findFirst({
         where:{
             id: journalId,
             userId: userId
         }
     });
+
+    console.log('Journal fetched:', journal);
     if(!journal){
         throw new ValidationError('Journal not found', 404);
     }

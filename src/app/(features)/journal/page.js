@@ -2,8 +2,16 @@
 
 import { listJournals } from "@/client/journal.api";
 import { useEffect, useState } from "react";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 import JournalCardComponent from "@/components/common/journal/JournalCardComponent";
 import { useRouter } from "next/navigation";
+import { Btn } from "@/components/Button";
 
 const MONTHS = [
   "January",
@@ -57,46 +65,57 @@ export default function ListJournalPage() {
   })();
 
   return (
-    <div>
-      <div className="flex justify-center pa-8 ma-16 gap-6">
+    <div className="p-8">
+      <div className="flex justify-center">
         <h1 className="text-3xl font-semibold">My Journals</h1>
       </div>
 
-      <header
-        style={{
-          display: "flex",
-          gap: 12,
-          alignItems: "center",
-          marginBottom: 16,
-        }}
-      >
-        <div>
-          <label style={{ marginRight: 8 }}>Month</label>
-          <select
-            value={month}
-            onChange={(e) => setMonth(Number(e.target.value))}
-          >
-            {MONTHS.map((name, idx) => (
-              <option key={name} value={idx + 1}>
-                {name}
-              </option>
-            ))}
-          </select>
+      <div className="flex justify-between my-4">
+        <div className="flex items-center gap-4">
+          <div>
+            <Select
+              value={String(month)}
+              onValueChange={(v) => setMonth(Number(v))}
+            >
+              <SelectTrigger>
+                <SelectValue>{MONTHS[month - 1]}</SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {MONTHS.map((name, idx) => (
+                  <SelectItem key={name} value={String(idx + 1)}>
+                    {name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <Select
+              value={String(year)}
+              onValueChange={(v) => setYear(Number(v))}
+            >
+              <SelectTrigger>
+                <SelectValue>{String(year)}</SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {yearOptions.map((y) => (
+                  <SelectItem key={y} value={String(y)}>
+                    {y}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         <div>
-          <label style={{ marginRight: 8 }}>Year</label>
-          <select
-            value={year}
-            onChange={(e) => setYear(Number(e.target.value))}
-          >
-            {yearOptions.map((y) => (
-              <option key={y} value={y}>
-                {y}
-              </option>
-            ))}
-          </select>
+          <Btn
+            theme="outline"
+            btnLabel="Create Journal"
+            onClick={() => router.push("/journal/create")}
+          />
         </div>
-      </header>
+      </div>
 
       {loading && <p>Loading journals…</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}

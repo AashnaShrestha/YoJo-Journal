@@ -4,7 +4,7 @@ export default function JournalCardComponent({ title, createdAt, onClick }) {
       className="gap-6 rounded-xl bg-white px-8 py-8 shadow-lg"
       onClick={onClick}
     >
-      <h1 className="text-3xl font-semibold">{title}</h1>
+      <h2 className="font-semibold">{title}</h2>
       <p>{createdAt}</p>
     </div>
   );

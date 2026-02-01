@@ -25,10 +25,12 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-100`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-100 flex flex-col gap-6`}
       >
         <Navbar className="w-screen" isLoggedIn={isLoggedIn} />
-        {children}
+        <div className="px-16">
+          {children}
+        </div>
       </body>
     </html>
   );

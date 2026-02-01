@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -118,6 +120,8 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    scroll-behavior: smooth;
+    font-family: "Inter", "Urbanist", sans-serif;
   }
   body {
     @apply bg-background text-foreground;
@@ -125,7 +129,7 @@
 }
 
 .newClass {
-    background-color: red;
+  background-color: red;
 }
 .controls {
   display: flex;
@@ -146,4 +150,22 @@
 .state-title {
   color: #999;
   text-transform: uppercase;
+}
+
+h1 {
+  font-size: 1.4rem;
+}
+
+h2 {
+  font-size: 1.2rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+}
+
+h4,
+h5,
+h6 {
+  font-size: 1rem;
 }
