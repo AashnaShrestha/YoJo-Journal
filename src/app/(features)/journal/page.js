@@ -148,6 +148,7 @@ export default function ListJournalPage() {
               key={journal.id}
               onClick={() => router.push(`/journal/${journal.id}`)}
               handleDelete={() => handleDelete(journal.id)}
+              handleEdit={() => router.push(`/journal/update/${journal.id}`)}
               title={journal.name}
               createdAt={moment(journal.createdAt).format("MMM DD, YYYY")}
             />

@@ -2,7 +2,7 @@
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
-export function InputField({ label, placeholder, name, type = "text", error, onChange }) {
+export function InputField({ label, placeholder, name, type = "text", error, onChange, value }) {
   return (
     <Field>
       <FieldLabel htmlFor={name}>{label}</FieldLabel>
@@ -10,6 +10,7 @@ export function InputField({ label, placeholder, name, type = "text", error, onC
       <Input
         id={name}
         type={type}
+        value={value}
         placeholder={placeholder}
         name={name}
         aria-invalid={!!error}

@@ -38,7 +38,7 @@ export async function getJournalDetail(journalId) {
 }
 
 export async function updateJournal(data) {
-  const res = await fetch("/api/journal", {
+  const res = await fetch(`/api/journal/${data.journalId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),

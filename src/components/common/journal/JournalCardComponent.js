@@ -26,6 +26,7 @@ export default function JournalCardComponent({
   createdAt,
   onClick,
   handleDelete,
+  handleEdit
 }) {
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
 
@@ -54,7 +55,10 @@ export default function JournalCardComponent({
 
           <DropdownMenuContent align="end">
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={(e) => e.stopPropagation()}>
+              <DropdownMenuItem onClick={(e) => {
+                e.stopPropagation();
+                handleEdit();
+              }}>
                 <Pen className="mr-2 h-4 w-4" />
                 Edit
               </DropdownMenuItem>

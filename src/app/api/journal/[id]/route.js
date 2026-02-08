@@ -22,22 +22,27 @@ export async function GET(req, context) {
 
     return NextResponse.json(
       { message: "success", data: journal },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (err) {
     console.error(err);
     return NextResponse.json(
       { message: err.message },
-      { status: err.statusCode || 500 }
+      { status: err.statusCode || 500 },
     );
   }
 }
 
-export async function PATCH(req) {
+export async function PATCH(req, context) {
   try {
     const body = await req.json();
+    const params = await context.params;
     const userId = await getUserId(req);
-    const journal = await journalService.updateJournal({ ...body, userId });
+    const journal = await journalService.updateJournal({
+      ...body,
+      userId,
+      journalId: params.id * 1,
+    });
     return NextResponse.json(
       { message: "success", data: journal },
       { status: 200 },
@@ -63,13 +68,13 @@ export async function DELETE(req, context) {
 
     return NextResponse.json(
       { message: "success", data: journal },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (err) {
     console.error(err);
     return NextResponse.json(
       { message: err.message },
-      { status: err.statusCode || 500 }
+      { status: err.statusCode || 500 },
     );
   }
 }
