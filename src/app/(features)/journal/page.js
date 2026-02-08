@@ -1,6 +1,6 @@
 "use client";
 
-import { listJournals } from "@/client/journal.api";
+import { listJournals, deleteJournal } from "@/client/journal.api";
 import { useEffect, useState } from "react";
 import {
   Select,
@@ -12,6 +12,9 @@ import {
 import JournalCardComponent from "@/components/common/journal/JournalCardComponent";
 import { useRouter } from "next/navigation";
 import { Btn } from "@/components/Button";
+import moment from "moment";
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 const MONTHS = [
   "January",
@@ -41,14 +44,32 @@ export default function ListJournalPage() {
   const fetch = async (y, m) => {
     setLoading(true);
     setError(null);
+
     try {
       const data = await listJournals(y, m);
       setJournals(data || []);
     } catch (err) {
       console.error(err);
+
+      toast("Failed to load journals");
+
       setError("Failed to load journals");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteJournal(id);
+
+      toast("Journal deleted successfully");
+
+      await fetch(year, month); // refetch
+    } catch (err) {
+      console.error(err);
+
+      toast("Failed to delete journal");
     }
   };
 
@@ -118,17 +139,17 @@ export default function ListJournalPage() {
       </div>
 
       {loading && <p>Loading journals…</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
 
       {!loading && !error && (
-        <div className="grid grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-6">
           {journals.length === 0 && <p>No journals found.</p>}
           {journals.map((journal) => (
             <JournalCardComponent
               key={journal.id}
               onClick={() => router.push(`/journal/${journal.id}`)}
+              handleDelete={() => handleDelete(journal.id)}
               title={journal.name}
-              createdAt={journal.createdAt}
+              createdAt={moment(journal.createdAt).format("MMM DD, YYYY")}
             />
           ))}
         </div>

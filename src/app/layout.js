@@ -6,6 +6,7 @@ const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
+import { Toaster } from "sonner";
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -29,6 +30,7 @@ export default async function RootLayout({ children }) {
       >
         <Navbar className="w-screen" isLoggedIn={isLoggedIn} />
         <div className="px-16">
+          <Toaster />
           {children}
         </div>
       </body>

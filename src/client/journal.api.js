@@ -36,3 +36,28 @@ export async function getJournalDetail(journalId) {
   const data = await res.json();
   return data.data;
 }
+
+export async function updateJournal(data) {
+  const res = await fetch("/api/journal", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error("Failed to update journal");
+  return res.json();
+}
+
+export async function deleteJournal(journalId) {
+  if (!journalId) throw new Error("journalId is required");
+  const res = await fetch(`/api/journal/${journalId}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    cache: "no-store",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete journal");
+  }
+  const data = await res.json();
+  return data.data;
+}
