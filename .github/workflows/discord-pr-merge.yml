@@ -1,0 +1,29 @@
+name: Notify Discord on PR Merge
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send PR merge notification to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          PR_URL="${{ github.event.pull_request.html_url }}"
+          AUTHOR="${{ github.event.pull_request.user.login }}"
+          MERGED_BY="${{ github.actor }}"
+          SOURCE_BRANCH="${{ github.event.pull_request.head.ref }}"
+          TARGET_BRANCH="${{ github.event.pull_request.base.ref }}"
+          REPO="${{ github.repository }}"
+
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"content\": \"🚀 **PR merged**\\n\\n\`${SOURCE_BRANCH}\` ➜ \`${TARGET_BRANCH}\`\\n\\n**Title:** ${PR_TITLE}\\n**Author:** ${AUTHOR}\\n**Merged by:** ${MERGED_BY}\\n**Repo:** ${REPO}\\n${PR_URL}\"
+            }" \
+            $DISCORD_WEBHOOK_URL
