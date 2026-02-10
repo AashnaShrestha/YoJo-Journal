@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: echo "Event name- ${{ github.event_name }}"
+      - run: echo "Event name- ${{ github.event }}"
 
       - name: Send PR merge notification to Discord
         env:
